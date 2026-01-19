@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Dashboard - Deine tägliche Motivation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Landing Page Container */
+        .landing-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .landing-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px 40px;
+            max-width: 600px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .landing-content h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .landing-content p {
+            font-size: 1.3em;
+            opacity: 0.95;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .trading-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 20px 50px;
+            font-size: 1.4em;
+            font-weight: 700;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: none;
+            cursor: pointer;
+        }
+
+        .trading-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            color: white;
+        }
+
+        .info-text {
+            margin-top: 30px;
+            font-size: 0.95em;
+            opacity: 0.8;
+        }
+
+        /* Popup Overlay */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+            padding: 20px;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .popup-overlay.hidden {
+            display: none;
+        }
+
+        /* Popup Box */
+        .popup {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transform: scale(0.9);
+            animation: popIn 0.3s forwards;
+        }
+
+        @keyframes popIn {
+            to { transform: scale(1); }
+        }
+
+        .popup-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .popup h2 {
+            color: #667eea;
+            font-size: 1.5em;
+        }
+
+        .popup-quote {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* Edit Mode */
+        .edit-container {
+            display: none;
+        }
+
+        .edit-container.active {
+            display: block;
+        }
+
+        .edit-container textarea {
+            width: 100%;
+            min-height: 300px;
+            padding: 15px;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.95em;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+
+        .edit-info {
+            background: #f0f4ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            flex: 1;
+            min-width: 100px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #e0e7ff;
+            color: #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #c7d2fe;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .landing-content {
+                padding: 30px 25px;
+            }
+
+            .landing-content h1 {
+                font-size: 2em;
+            }
+
+            .landing-content p {
+                font-size: 1.1em;
+            }
+
+            .trading-button {
+                padding: 15px 35px;
+                font-size: 1.2em;
+            }
+
+            .popup {
+                padding: 20px;
+            }
+
+            .popup h2 {
+                font-size: 1.2em;
+            }
+
+            .popup-quote {
+                font-size: 1em;
+                padding: 20px;
+            }
+
+            button {
+                min-width: 80px;
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Landing Page -->
+    <div class="landing-container">
+        <div class="landing-content">
+            <h1>📈 Ready to Trade?</h1>
+            <p>Starte deinen Trading-Tag mit der richtigen Einstellung!</p>
+            
+            <a href="https://tradingdesk.finanzen.net" class="trading-button">
+                🚀 Zum Trading-Desk
+            </a>
+            
+            <p class="info-text">
+                💡 Tipp: Speichere diese Seite als Lesezeichen oder Startseite!
+            </p>
+        </div>
+    </div>
+
+    <!-- Popup Overlay -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup">
+            <div class="popup-header">
+                <h2>💪 Dein Trading-Spruch</h2>
+            </div>
+
+            <!-- Quote Display -->
+            <div id="quoteDisplay">
+                <div class="popup-quote" id="quoteText"></div>
+                <div class="button-group">
+                    <button class="btn-primary" onclick="closePopup()">OK</button>
+                    <button class="btn-secondary" onclick="toggleEdit()">✏️ Bearbeiten</button>
+                </div>
+            </div>
+
+            <!-- Edit Mode -->
+            <div class="edit-container" id="editContainer">
+                <div class="edit-info">
+                    💡 Ein Spruch pro Zeile. Leere Zeilen werden ignoriert.
+                </div>
+                <textarea id="quotesTextarea" placeholder="Füge hier deine Sprüche ein..."></textarea>
+                <div class="button-group">
+                    <button class="btn-success" onclick="saveQuotes()">💾 Speichern</button>
+                    <button class="btn-secondary" onclick="cancelEdit()">Abbrechen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Default Trading Quotes
+        const defaultQuotes = [
+            "Plan the trade, trade the plan. 📊",
+            "Der Trend ist dein Freund – bis er endet. 📈",
+            "Risiko-Management ist wichtiger als der perfekte Entry. 🎯",
+            "Geduld bringt mehr als Hektik. ⏳",
+            "Verluste gehören dazu – lerne aus ihnen! 💡",
+            "Cut your losses, let your winners run. 🏆",
+            "Trading ist ein Marathon, kein Sprint. 🏃",
+            "Emotionen sind der größte Feind des Traders. 🧘",
+            "Der Markt hat immer Recht. 📉",
+            "Konsistenz schlägt Perfektion. ✅"
+        ];
+
+        let quotes = [];
+        let isEditMode = false;
+
+        // Initialize
+        function init() {
+            loadQuotes();
+            showRandomQuote();
+        }
+
+        // Load quotes from localStorage
+        function loadQuotes() {
+            const stored = localStorage.getItem('tradingQuotes');
+            if (stored) {
+                try {
+                    quotes = JSON.parse(stored);
+                    if (!Array.isArray(quotes) || quotes.length === 0) {
+                        quotes = [...defaultQuotes];
+                    }
+                } catch (e) {
+                    quotes = [...defaultQuotes];
+                }
+            } else {
+                quotes = [...defaultQuotes];
+            }
+        }
+
+        // Show random quote
+        function showRandomQuote() {
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const quoteText = document.getElementById('quoteText');
+            quoteText.textContent = quotes[randomIndex];
+        }
+
+        // Close popup
+        function closePopup() {
+            const overlay = document.getElementById('popupOverlay');
+            overlay.classList.add('hidden');
+        }
+
+        // Toggle edit mode
+        function toggleEdit() {
+            isEditMode = true;
+            const quoteDisplay = document.getElementById('quoteDisplay');
+            const editContainer = document.getElementById('editContainer');
+            const textarea = document.getElementById('quotesTextarea');
+            
+            quoteDisplay.style.display = 'none';
+            editContainer.classList.add('active');
+            
+            // Fill textarea with current quotes
+            textarea.value = quotes.join('\n');
+        }
+
+        // Cancel edit
+        function cancelEdit() {
+            isEditMode = false;
+            const quoteDisplay = document.getElementById('quoteDisplay');
+            const editContainer = document.getElementById('editContainer');
+            
+            quoteDisplay.style.display = 'block';
+            editContainer.classList.remove('active');
+        }
+
+        // Save quotes
+        function saveQuotes() {
+            const textarea = document.getElementById('quotesTextarea');
+            const newQuotes = textarea.value
+                .split('\n')
+                .map(q => q.trim())
+                .filter(q => q.length > 0);
+            
+            if (newQuotes.length === 0) {
+                alert('⚠️ Du brauchst mindestens einen Spruch!');
+                return;
+            }
+            
+            quotes = newQuotes;
+            localStorage.setItem('tradingQuotes', JSON.stringify(quotes));
+            
+            // Show new random quote
+            showRandomQuote();
+            cancelEdit();
+            
+            alert('✅ Sprüche erfolgreich gespeichert!');
+        }
+
+        // Start on page load
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
