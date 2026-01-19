@@ -1,4 +1,14 @@
-<!DOCTYPE html>
+.landing-content {
+                padding: 30px 25px;
+            }
+
+            .landing-content h1 {
+                font-size: 2em;
+            }
+
+            .landing-content p {
+                font-size: 1.1em;
+            }<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
@@ -13,7 +23,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0f172a 0%, #1e40af 100%);
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -31,55 +41,25 @@
             text-align: center;
         }
 
-        .landing-content {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 50px 40px;
-            max-width: 600px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .landing-content h1 {
-            font-size: 3em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .landing-content p {
-            font-size: 1.3em;
-            opacity: 0.95;
-            margin-bottom: 40px;
-            line-height: 1.6;
-        }
-
         .trading-button {
             display: inline-block;
-            background: white;
-            color: #667eea;
-            padding: 20px 50px;
-            font-size: 1.4em;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 25px 60px;
+            font-size: 1.8em;
             font-weight: 700;
-            border-radius: 50px;
+            border-radius: 15px;
             text-decoration: none;
             transition: all 0.3s;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            border: none;
+            box-shadow: 0 10px 40px rgba(30, 64, 175, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
         }
 
         .trading-button:hover {
             transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
-            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
-            color: white;
-        }
-
-        .info-text {
-            margin-top: 30px;
-            font-size: 0.95em;
-            opacity: 0.8;
+            box-shadow: 0 15px 50px rgba(59, 130, 246, 0.6);
+            background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
         }
 
         /* Popup Overlay */
@@ -131,12 +111,12 @@
         }
 
         .popup h2 {
-            color: #667eea;
+            color: #1e40af;
             font-size: 1.5em;
         }
 
         .popup-quote {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
             color: white;
             padding: 25px;
             border-radius: 10px;
@@ -160,7 +140,7 @@
             width: 100%;
             min-height: 300px;
             padding: 15px;
-            border: 2px solid #667eea;
+            border: 2px solid #1e40af;
             border-radius: 10px;
             font-family: inherit;
             font-size: 0.95em;
@@ -169,11 +149,11 @@
         }
 
         .edit-info {
-            background: #f0f4ff;
+            background: #dbeafe;
             padding: 10px 15px;
             border-radius: 8px;
             font-size: 0.9em;
-            color: #667eea;
+            color: #1e40af;
             margin-bottom: 15px;
         }
 
@@ -197,22 +177,22 @@
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
             color: white;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 15px rgba(30, 64, 175, 0.4);
         }
 
         .btn-secondary {
-            background: #e0e7ff;
-            color: #667eea;
+            background: #dbeafe;
+            color: #1e40af;
         }
 
         .btn-secondary:hover {
-            background: #c7d2fe;
+            background: #bfdbfe;
         }
 
         .btn-success {
@@ -267,25 +247,16 @@
 <body>
     <!-- Landing Page -->
     <div class="landing-container">
-        <div class="landing-content">
-            <h1>📈 Ready to Trade?</h1>
-            <p>Starte deinen Trading-Tag mit der richtigen Einstellung!</p>
-            
-            <a href="https://tradingdesk.finanzen.net" class="trading-button">
-                🚀 Zum Trading-Desk
-            </a>
-            
-            <p class="info-text">
-                💡 Tipp: Speichere diese Seite als Lesezeichen oder Startseite!
-            </p>
-        </div>
+        <a href="https://tradingdesk.finanzen.net" class="trading-button">
+            📈 Zum Trading-Desk
+        </a>
     </div>
 
     <!-- Popup Overlay -->
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup">
             <div class="popup-header">
-                <h2>💪 Dein Trading-Spruch</h2>
+                <h2>Dein Trading-Spruch</h2>
             </div>
 
             <!-- Quote Display -->
